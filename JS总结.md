@@ -2,11 +2,6 @@
 
 ### ECMA基础语法
 
-#### 变量
-
-- var(变量泄漏)、
-- let、const；
-
 #### 数据类型
 
 - 初始类型: null,undefined,Number,String,Boolean; 
@@ -323,80 +318,6 @@ float1.float();
     console.log(Person.prototype.__proto__ == Object.prototype);    // true
     console.log(Object.prototype.__proto__);   //null
 ```
-
-
-
-#### BOM
-
-# DOM
-
-#### 获取元素的方法：（5）
-
-#### 操作内容：innerHTML  innerText
-
-#### 操作样式：
-
-**设置样式**
-
-- 添加行内样式：`obj.style.attr=value;`
-- 操作类名：
-
-```js
-obj.classList.add("box");
-obj.classList.remove("box");
-obj.classList.toggle("box");   // 切换类
-```
-
-className:表示所有的类名
-
-- 操作id:
-
-**获取样式**
-获取元素的样式：`window.getComputedStyle(ele,null).attr;`
-
-#### 操作属性
-
-###### 标准属性
-
-获取：`obj.attr`
-
-设置：`obj.attr=value`
-
-###### 非标准属性
-
-设置：`obj.setAttribute(name,value)`
-
-获取：`obj.getAttribute(name)`
-
-### 元素的尺寸与位置
-
-- offsetWidth:元素的真实宽度
-- offsetHeight:元素的真实高度
-- offsetTop:获取具有定位属性的父元素垂直方向的距离
-- offsetLeft:获取具有定位属性的父元素水平方向的距离
-- scrollTop：获取有滚动体的元素滚动时垂直方向的距离
-
-```js
-window.onscroll=function(){
-    document.
-}
-```
-
-
-
-- scrollLeft:获取有滚动体的元素滚动时水平方向的距离
-
-### 节点
-
-### 事件
-
-### 事件对象
-
-### 事件流
-
-### 事件委派
-
-### 本地存储
 
 
 
