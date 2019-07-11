@@ -26,8 +26,20 @@
 ##### JS的组成部分
 
 1. ECMAScript：是JavaScript基础规范，定义了JavaScript基础语法。
+
+   > 变量（val、let、const）、数据类型（undefined、null、Number、string、boolean）object（函数function）、运算符（算术、关系（Boolean）、逻辑、赋值、一元、三元、特殊）、流程控制（顺序结构、分支结构、循环结构、break、continue、return）、数组（）、函数、作用域（作用域链）、对象、日期对象、正则对象、原型、原型链、继承
+
 2. BOM浏览器对象模型：可以对浏览器窗口进行访问和操作。
+
+   > window、location（href）、history(前进，后退，刷新）
+
 3. DOM文档对象模型：通过创建树来表示文档，从而使开发者对文档的内容和结构具有控制力。用DOM API可以轻松操作文档。
+
+4. 面向对象（表达）、单线程异步机制（表达）（js中哪些是异步的）
+
+5. es6新增的属性
+
+   > name属性，rest参数，箭头函数，let，块级作用域，class，模板字符串、解构赋值、给参数赋默认值
 
 ##### JS引入方式
 
@@ -155,17 +167,1370 @@
 
 ### 数据类型
 
+#### 初始类型 
+
+> 初始数据类型保存在栈区 （先入后出）
+
+1. **Undefined** 
+
+   > 声明变量但是没有赋值 
+
+2. **Null** 
+
+   > 未声明&&未定义，相当于一个占位符
+   > null 属于对象object
+   > null Null NULL完全不一样
+
+3. **Number**
+
+```
+整型
+浮点型
+
+二进制0b，八进制0o，十进制，十六进制0x
+可以用科学计数法表示  10e10  10乘以10的10次方
+                      3e6    3乘以10的6次方   
+
+最值：
+    Number.MAX_VALUE最大值     1.7976931348623157e+308
+    Number.MIN_VALUE最小值     5e-324
+    
+特殊值：
+    NaN非数字
+    +0
+    -0
+无穷：
+    正无穷infinity     1/0  
+    负无穷-infinity   -1/0          
+    
+    除/null 相当于/0
+```
+
+4. **string**
+
+- 语法：反引号``（模板字符串的使用）(使用反引号时要注意兼容性)      单引号''         双引号""
+
+```
+反引号 ` `
+识别符 $
+${}
+```
+
+- 用法：1. 只能成对出现，不能相互交叉使用。2. 可相互嵌套
+- 字符编码：ASCII    GB2312     GBK     UTF-8      Unicode
+
+```
+ASCII编码中
+A   十进制65   十六进制41
+a   十进制97   十六进制61
+```
+
+- 转义字符：\
+
+```
+\n换行  \r回车    \t制表符    \b空格     \'单引号     \"双引号      \\斜杠
+```
+
+5. **boolean**
+
+   > true    false
+
+6. ES6新增：**symbol**
+
+   > symbol表示独一无二的值，它的实例是唯一且不可改变的
+
+#### 引用类型 
+
+> 引用数据类型object一般保存在堆区
+
+> object 包含相关属性和方法的集合，包括Function，Array，Object
+
+###### 栈（数据结构）
+
+栈是一种先入后出的数据结构。
+
+###### 栈区
+
+由编译器自动分配，用来存放函数的参数或者变量的值（局部变量）
+
+###### 栈区存放的优点
+
+- 数据的长度是固定的，访问速度很快
+- 我们的初始数据类型一般存放在栈区中
+
+###### 堆区
+
+- 数据的长度不固定，访问速度较慢
+- 一般引用数据类型存放在堆区
+
 ### 运算符
+
+#### 1.  算术运算符
+```js
++  -  *  /  %取余  ++自增  --自减  **求幂 
+
+eg:
+let num = 10
+num--  //num = num-1 
+num++
+x**y   x的y次方  同Math.pow(x,y) 
+
+a++先用后加
+++a先加后用
+
+console.log(num)
+console.log('abc'+'def')  //拼接字符串abcdef
+
+// 数字+'' 将数字转换为字符串  
+'abc'+123   //abc123
+'abc'+true  //123true
+123-"123"   //0
+123-"12a"   //NaN
+123-true    //122  true 1
+```
+#### 2.  关系运算符 
+结果为boolean
+```js
+<  <=  >  >=  == != ===  !==
+== 判断值
+=== 判断值和类型
+```
+#### 3.  赋值运算符 
+```js
+=  +=  -=  *=  /=  %=
+eg:
+let a = 10
+a+=10   //a=a+10
+```
+#### 4.  逻辑运算符
+```js
+&&与  同真为真，有假为假
+||或  有真为真，同假为假
+!非
+
+短路原则
+let a,b
+a=10  (除0和NaN，其余都是真)
+true || (a=20)
+
+let a
+false && (a=10)
+
+//逻辑判断的顺序
+let k=1;
+let j=2;
+let l=k&&j;   // let l=!k&&j;
+console.log(l);
+```
+#### 5.  一元运算符
+```js
+typeof 测试操作数类型
+eg:    typeof(123)  //number
+       typeof('123')  //string
+
++10 正数
+-10 负数
+
+++  自增
+--  自减
+
+new  实例化对象
+delete 删除对象属性或变量
+
+扩展运算符： ...arr  输出arr中的元素
+```
+#### 6.  三元运算符
+```js
+表达式 ? 为真执行项：为假执行项
+
+eg:
+1>2 ? alert("1>2") :alert("2>1")
+```
+#### 7.  特殊运算符
+```
+()优先运算，函数调用
+\ 转义
+,  声明多个变量,赋值
+
+```
 
 ### 控制流程
 
+#### 顺序结构
+#### 分支结构  
+（1）单路分支
+```
+if(表达式){
+    程序…
+}
+```
+（2）双路分支
+```
+if(表达式){
+    程序…
+}else{ 
+    
+}
+
+//三目运算
+let status =prompt("下雨吗")
+status == "下雨" ? document.write("会下雨") : document.write("不会下雨")
+
+let status = confirm("下雨") ? console.log('打伞'):console.log('不打伞')
+
+```
+（3）多路分支
+```js
+if(表达式){
+    程序…
+}else if(表达式){
+    
+}else{
+    
+}
+
+switch(status){  
+    case "1":    
+        console.log("星期一")
+        break   返回
+    case "2":
+        console.log("星期二")
+        break
+    ...
+    default:
+        执行项
+        break
+}
+switch(变量){
+    case 值1:语句1;break;
+    ...
+    default:其他情况；
+}
+值为变量能够取到的值,值与变量的数据类型要相同
+```
+#### 循环结构
+（1）for循环
+```
+for(初始值;循环条件;步进值){
+    
+}
+```
+（2）while循环：先判断，后执行。
+```
+while(条件){
+    
+}
+
+//猜数字游戏
+let num = parseInt(Math.random()*55+10)
+while(true){
+    let num2 =parseInt(prompt("请输入一个数"))
+    if(num2==num){
+        alert("恭喜你，猜对了")
+        break      
+    }else if(num2<num){
+        alert("数字过小")
+    }else{
+        alert("数字过大")
+    }
+}
+```
+（3）do while ：先执行，后判断。最少之行一次
+```
+do{
+    循环体
+}while()
+```
+**for循环和while循环的使用选择**   
+
+1. for循环必须知道循环次数，而while循环可以不确定  
+2. 所以在已知循环次数情况下用for循环  
+3. 使用时优先考虑for循环，当无法写出循环条件的起始结束步进值是考虑用while循环。
+
+**干预循环**  
+continue：退出本次循环，进行下一次  
+break 终止循环
+
 ### 数组
+
+
 
 ### 函数
 
 
 
+### 对象
+
+# 对象
+
+## 一、对象
+首先对象是一个引用数据类型，对象可以拥有各种各样的属性，对象就是属性的无序集合。
+
+#### 对象的组成部分
+
+| 名称 |                             作用                             |
+| :--: | :----------------------------------------------------------: |
+| 属性 |                        描述对象的状态                        |
+| 方法 | 当属性的属性值是一个函数的时候，我们称之为方法。方法用来描述对象的行为 |
+
+#### 对象的创建方式
+1. 隐式创建  使用json格式的对象  
+
+```js
+let obj = {
+    
+}
+```
+2. 通过实例化Object构造函数  
+
+```js
+let obj = new Object();
+```
+3. 通过实例化自定义构造函数
+
+```js
+function Person(){  //自定义构造函数
+    
+}
+let student = new Person(); //实例化
+```
+#### 对象属性的增删改查
+###### 增
+1. 创建的同时进行属性添加
+
+```js
+let lala = {
+    name:"啦啦",
+    sex:"女",
+    age:12
+}
+```
+2. 先创建对象，通过`对象.属性名`来添加属性
+
+```js
+let lala={}
+lala.name="啦啦";
+lala.sex="女";
+lala.age=12;
+```
+###### 改（更新）
+* 通过`对象.属性名=新的属性值`来进行属性的更新
+
+###### 查（查看）
+* 通过`对象.属性名`来进行属性的查看
+
+###### 删除
+1. 销毁对象（将整个对象进行销毁）
+
+```js
+对象=null;
+```
+2. 删除对象的某一个属性
+
+```js
+delete 对象.属性
+```
+#### 对象的遍历
+通过遍历将对象中每一个属性都获取到
+```js
+let suancai={
+    name:"酸菜",
+    price:"15/份",
+    taste:"酸辣"
+}
+for(let i in suancai){
+    //console.log(i);
+    console.log(suancai[i]);  //对象的属性名保存在了变量i中，通过中括号[变量]访问对象的属性
+}
+```
+#### 对象的拷贝
+###### 浅拷贝
+传址，只是将对象的存储地址进行了复制，如果对原来的对象进行修改，会影响到拷贝之后的新对象
+```js
+let newObj=obj;
+```
+
+###### 深拷贝
+传值，将对象中的所有属性和方法放入到一个新的对象中，当我们对原来的对象进行修改时不会影响新对象  
+实现深拷贝：利用递归函数的特性进行深拷贝
+
+```js
+let animal={
+    name:"动物",
+    sex:"公",
+    age:5,
+    color:{
+        color1:"red",
+        color2:"blue",
+        color3:"yellow",
+        colors:{
+            colors1:"red and blue",
+            colors2:"yellow and pink"
+        }
+    },
+    arr:[4,5,87,9,6]
+}
+function deepCopy(obj){
+    let nObj=null;
+    if(typeof obj==="object" && typeof obj !==null){
+        nObj= obj instanceof Array ? [] : {};    //instanceof  判断实例化构造函数
+        for(let i in obj){
+            nObj[i]=deepCopy(obj[i])
+        }
+    }else{
+        nObj=obj;
+    }
+    return nObj;
+}
+let dog=deepCopy(animal);
+dog.name="哈士奇"
+dog.color.colors.colors1="ss"
+dog.arr[0]=100;
+console.log(dog)
+console.log(animal)
+```
+#### ES6中新增的对象特性
+###### 对象属性和方法的简写
+当属性值保存在一个变量中，并且属性名与变量名相同，我们可以只写一个。  
+在ES6中方法的形式可以进行简写  
+方法名(){函数体}
+```js
+let username="张三";
+let obj={
+    username,
+    say(){
+        alert("李四去哪儿了？");
+    }
+}
+obj.say(); //弹出框
+console.log(obj.username); //张三
+```
+###### 对象的解构赋值
+* 接收函数的参数  
+* 接收函数的返回值 
+
+==对象的解构赋值与数组的解构赋值==
+
+###### 对象的rest参数
+* 用于解构赋值  
+* 接收函数的参数
+
+## 二、对象的特性
+1.封装  
+2.继承  
+#### 封装
+封装：将对象的所有组成部分组合起来，尽可能的隐藏对象的部分细节，使其受到保护，只提供有限的接口进行访问。
+
+###### 封装方法
+1. 工厂函数：将创建对象以及对象的属性的添加都封装起来
+
+```js
+function Animal(name,sex,purpose){
+    let animal={};
+    animal.name=name;
+    animal.sex=sex;
+    animal.purpose=purpose;
+    return animal;
+}
+let dog=new Animal("哈士奇","公","拆家");
+console.log(dog);
+```
+2. 通过构造函数的方式封装
+
+```js
+function Animal(name,sex,age,purpose){
+    this.name=name;
+    this.sex=sex;
+    this.age=age;
+    this.purpose=purpose;
+}
+let dog=new Animal("哈士奇","公",3,"开心豆")
+console.log(dog);
+```
+#### 原型
+工厂函数以及构造函数在创建新的对象的时候会将所有的属性方法再复制一遍放入一个新的对象中，有一些公共的方法或者属性会被重复的保存，导致内存的负荷增大。  
+为了解决这个问题，js为我们提供了原型的概念---原型用来存储对象中公共的属性或方法。  
+**原型的分类**  
+构造函数的原型：`prototype`  
+对象的原型：`__proto__ ` 
+```js
+function Person(name,sex,age,job){
+    this.name=name;
+    this.sex=sex;
+    this.age=age;
+    this.job=job;
+}
+Person.prototype={      //构造函数的原型
+    say:function(){
+        console.log("我们都爱说话");
+    },
+    eat:function(){
+        console.log("我们都要吃饭")
+    }
+}
+let player=new Person("颖宝","女",18,"演员");
+console.log(player);
+```
+###### new操作的具体操作
+1. 创建了一个空对象
+2. 将构造函数的私有属性与方法放在这个空对象中
+3. 将构造函数原型`prototype`中的公共属性和方法放在这个对象的原型`__proto__`中
+```js
+第一步：player={}
+第二步：palyer={
+            
+        }
+第三步：player.__proto__==Person.prototype
+```
+#### 继承
+在js中基于对象创建一个新的对象，新对象拥有原对象的属性和方法，这个叫继承。
+###### 实现继承的方法
+1. 原型继承  
+通过将父对象的构造函数实例放在子对象的原型中，实现继承。
+
+```js
+function Person(){
+    this.name="姓名";
+    this.sex="性别";
+}
+function Father(){
+    // this.name="李爸爸";
+    this.wife="刘女士";
+}
+Father.prototype= new Person();
+let father=new Father();
+console.log(father.name);
+```
+2. call继承  
+将父对象的某一个方法暂时借给子对象，并且会立即执行  
+将父对象的构造函数整个都继承给子对象  
+格式：fun.call(obj,参数1,参数2)  
+本质上来说，call方法实际就是要改变fun函数内的this指向
+
+```js
+function Animal(){
+    this.name="动物";
+    this.say=function(a,b){
+        console.log("我叫"+a+",我今年"+b+"岁了");
+    }
+}
+function Dog(){
+
+}
+let animal=new Animal();
+let dog =new Dog();
+// animal.say.call(dog,"琪琪",12);  //继承单个方法,使用时立即执行函数
+Animal.call(dog);   //继承整个构造函数
+dog.name="琪琪";
+console.log(dog);
+```
+3. apply继承  
+用法与call相同  
+不同的是apply传递参数的时候会将参数放在一个数组中传递，call会将一个一个用逗号隔开进行传递   
+格式：fun.apply(obj,[参数1,参数2,...])
+
+```js
+function Animal(){
+    this.name="动物";
+    this.say=function(a,b){
+        console.log("我叫"+a+",我今年"+b+"岁了");
+    }
+}
+function Dog(){
+
+}
+let animal=new Animal();
+let dog =new Dog();
+// animal.say.apply(dog,["叮当",3]);
+Animal.apply(dog);
+dog.say("铛铛",3)
+dog.name="铛铛";
+console.log(dog);
+```
+4. bind 继承  
+bind用法与call,apply相同，不同的bind不能继承整个构造函数，bind的继承结果会返回函数本身，不会立即执行。  
+bind符合我们正常的需求，可以将继承来的方法保存，当我们需要的时候再进行调用。 
+
+```js
+function Animal(){
+    this.name="动物";
+    this.say=function(a,b){
+        console.log("我叫"+a+",我今年"+b+"岁了");
+    }
+}
+function Dog(){
+
+}
+let animal=new Animal();
+let dog =new Dog();
+let a= animal.say.bind(dog);
+a("铛铛",3)
+
+```
+#### 访问对象属性或方法的顺序
+>对象本身=>构造函数=>构造函数的原型=>构造函数原型的构造函数=>构造函数原型的构造函数的原型...=>Object,如果都没有这个产生错误（如果访问的是属性，返回undefined；如果是方法返回一个错误）
+
+#### 原型链
+>访问对象的属性或方法时，会从对象本身开始，去寻找，如果没有会去原型中去寻找，一层一层网上寻找，直到找到Object,null结束，这个过程就叫做原型链。
+
+
+## 三、JS原生对象
+由JS为我们准备好的可以直接使用的对象  
+Array对象，String对象，Object对象，Math对象，Date对象，正则对象
+
+### 1. Array对象
+数组对象有一些我们常用的属性或方法
+##### 属性
+1. length:数组的长度，用来表示数组元素的个数
+2. constructor：保存构造函数
+
+##### 方法
+
+1. arr.push(元素)  
+>往数组的末尾添加一个或多个元素  
+>返回值是修改后的数组长度  
+>会修改原数组  
+
+2. arr.unshift(元素)  
+>往数组的开头添加一个或多个元素  
+>返回值是修改后的数组长度  
+>会修改原数组 
+
+3. arr.pop()
+>从数组的末尾删除一个元素  
+>返回值是被删除的元素  
+>会修改原数组  
+
+4. arr.shift()
+>从数组的开头删除一个元素  
+>返回值是被删除的元素  
+>会修改原数组（只能删除一个）
+
+5. arr.splice(起始下标,删除的长度,添加的元素)
+>有三个参数，分别表示起始下标，删除的长度，添加的元素（可以是任意数据类型）  
+>会对原数组造成影响  
+>返回值是被删除的元素组成的数组  
+>添加可以将删除的长度为0，写上添加的元素
+
+6. arr.join(连接符)  
+>可以将数组转为用分隔符隔开的字符串  
+>对原数组没有影响  
+>返回值是一个字符串
+
+7. arr.slice(起始下标,结束下标)  
+>用于数字的截取，截取的内容包含起始下标，不包含结束下标  
+>返回值是截取的数组  
+>对原数组没有影响 
+>参数可以是负数，表示从倒数第几个开始，到倒数第几个结束  
+>如果只有一个起始下标，那么从起始下标截取到最后
+
+8. arr.concat()
+>用于多个数组的拼接  
+>参数可以是一个或多个数组  
+>返回值是拼接后的新数组  
+>不会对原数组造成影响
+
+```js
+let arr=[1,2,3,4,5,7,9];
+let arr1=[4,5,4,5];
+let arr2=[45,8,9,10];
+let a =arr.concat(arr1,arr2);
+console.log(a)
+```
+
+9. arr.indexOf()
+>查找一个元素在数组中第一次出现的位置  
+>返回值是元素对应的下标，如果这个元素不存在返回-1  
+
+==去重==
+```js
+//数组去重，用indexOf()实现
+
+```
+
+10. arr.lastIndexOf()
+>倒序查找一个元素在数组中第一次出现的位置  
+>返回值是元素对应的下标，如果这个元素不存在返回-1
+
+11. arr.sort()
+>用于数组排序，如果没有参数，默认按照元素的字符编码排列   
+>如果有参数，参数必须是函数（回调函数），函数有两个参数为a,b（a-b表示升序，b-a表示倒序）  
+>返回值是排序之后的数组  
+>会修改原数组
+
+```js
+let arr=[1,4,5,2,9,3,10];
+arr.sort(function(a,b){
+    return a-b;  //升序
+    // return b-a;  //降序
+})
+console.log(arr);
+
+完整表达式: a-b> 0 ? 1 : -1;  如果为1，交换位置，如果为-1，不交换位置
+
+//箭头函数
+arr.sort((a,b)=>a-b)     //升序
+arr.sort((a,b)=>b-a)     //降序
+
+//随机排序
+let arr=[1,4,5,2,9,3,10];
+arr.sort(()=>{
+    return Math.random()-0.5;
+})
+console.log(arr)
+```
+
+12. arr.forEach()
+>用于数组的遍历  
+>参数是一个回调函数，回调函数有两个参数，第一个表示数组元素，第二个表示元素下标    
+>没有返回值，默认为undefined  
+>对原数组没有影响
+
+
+```js
+let arr=[1,45,8,6,54,3];
+let a =arr.forEach((v,i)=>{
+    return v;  //return i;   //遍历
+})
+```
+
+13. arr.filter()
+>用于数组过滤，按回调函数的条件进行过滤  
+>参数是回调函数，回调函数的参数有两个，第一个表示数组元素，第二个表示元素下标（回调函数必须有返回值，返回一个筛选条件）  
+>一个数组到另一个数组：范围会小于等于
+
+```js
+var arr=[1,45,8,6,54,3];
+var newArr =arr.filter(function(value,index){
+    return value>6;       //筛选arr数组中值大于6的元素
+})
+console.log(newArr);
+```
+
+14. arr.map()
+>数组映射，按照回调函数的结果将数组元素放大或缩小  
+>参数是回调函数，回调函数的参数有两个，第一个表示数组元素，第二个表示元素下标（回调函数必须有返回值，返回一个筛选条件）  
+>一个数组到另一个数组：元素是一一对应的。范围不变。
+
+```js
+let arr=[1,45,8,6,54,3];
+let a=arr.map(function(value,index){
+    return value*2;        //将数组中的所有元素都乘以2返回
+});
+
+// 箭头函数
+let a = arr.map((value,index)=>value*2);
+console.log(a);
+```
+
+15. arr.some()
+>判断是否存在满足条件的元素，存在返回true，不存在返回false  
+>参数是回调函数，回调函数的参数有两个，第一个表示数组元素，第二个表示元素下标（回调函数必须有返回值，返回一个判断条件）
+
+```js
+let arr=[1,45,8,6,54,3];
+let a=arr.some(function(value,index){
+    return value<6;
+});
+console.log(a);     //true
+```
+
+16. arr.every()
+>判断数组中的每一个元素是否都满足条件，存在返回true，不存在返回false  
+>参数是回调函数，回调函数的参数有两个，第一个表示数组元素，第二个表示元素下标（回调函数必须有返回值，返回一个判断条件）
+
+```js
+let arr=[1,45,8,6,54,3];
+let a=arr.every(function(value,index){
+    return value<6;
+});
+console.log(a);     //false
+```
+
+17. arr.reverse()
+>数组倒序
+
+```js
+let arr=[1,45,8,6,54,3];
+let a=arr.reverse();
+console.log(a);     //[3, 54, 6, 8, 45, 1]
+```
+
+18. arr.includes()
+>判断某一个数据是否存在于数组中，存在返回true，不存在返回false  
+>可以有两个参数，第一个表示被检索的元素，第二个是检索开始的元素
+
+```js
+let arr=[1,45,8,6,54,3];
+console.log(arr.includes(8));    //true
+
+//两个参数
+let arr=[1,45,8,6,54,3];
+console.log(arr.includes(8,5));    //false
+```
+### 2. String对象
+**字符串：** 使用单引号或者双引号包裹起来的内容就是一个字符串  
+单双引号可以相互嵌套，但是不能交叉使用，单引号不能嵌套单引号，双引号不能嵌套双引号    
+
+##### 属性
+>length:表示字符串的长度（字符个数）
+
+##### 方法
+1. str.charAt(index)
+>返回字符串中下标所对应的字符  
+>参数是下标（数字）  
+>返回值是对应的字符  
+>不会影响原字符串  
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.charAt(6);
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);   //4
+```
+
+2. str.charCodeAt(index)
+>返回字符串中下标所对应的字符的ASCII编码  
+>参数是下标（数字）  
+>返回值是对应的字符的ASCII编码  
+>不会影响原字符串  
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.charCodeAt(3);
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  //97   "a"
+```
+
+3. String.fromCharCode(ASCII)
+>返回ASCII编码对应的字符，一般用于字符与数字之间的转换  
+>参数是ASCII编码  
+>返回值是编码对应的字符
+
+```js
+let s = String.fromCharCode(65);
+console.log(s);   //A
+```
+
+4. str.indexOf()
+>返回字符在字符串中第一次出现的位置（从前往后）  
+>参数是需要寻找的字符  
+>返回值是对应的下标  
+>如果不存在返回-1
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.indexOf('a');
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // 3
+```
+
+5. str.lastIndexOf()
+>返回字符在字符串中最后一次出现的位置（从后往前）  
+>参数是需要寻找的字符  
+>返回值是对应的下标  
+>如果不存在返回-1
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.lastIndexOf('s');
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // 12
+```
+
+6. str.replace(替换的字符,替换后的字符)
+>将匹配到的字符进行替换，**只能替换第一个**  
+>参数1：被替换的内容  
+>参数2：替换后的内容  
+>replace支持正则匹配
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.replace('sf',"geg");
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // gegsaf548sf69sfg5g
+
+//正则匹配
+let str="sfsaf548sf69sfg5g";
+let s=str.replace(/sf/,"geg");
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // gegsaf548sf69sfg5g
+```
+
+7. str.slice(起始下标,结束下标)
+>截取对应的字符  
+>参数1：截取开始的位置    
+>参数2：截取结束的位置  
+>截取的内容包括开始位置，不包括结束位置  
+>支持负数
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.slice(2,6);
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // saf5
+
+let str="sfsaf548sf69sfg5g";
+let s=str.slice(-10,-1);
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // 8sf69sfg5
+```
+
+8. str.substring(起始下标,结束下标)
+>截取对应的字符  
+>参数1：截取开始的位置  
+>参数2：截取结束的位置  
+>截取的内容包括开始位置，不包括结束位置  
+>不支持负数
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.substring(2,6);
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // saf5
+```
+
+9. str.substr(起始下标，截取的长度)
+>根据截取的字符长度进行截取  
+>参数1：截取开始的位置  
+>参数2：截取的字符长度 
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.substr(2,6);
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // saf548
+```
+
+10. str.split()
+>根据给定字符将字符串分割成一个数组  
+>参数是分隔符  
+>返回值是一个分割后的字符组成的数组，被用作分隔符的字符串不会出现在数组中
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.split("s");
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // ["", "f", "af548", "f69", "fg5g"]
+```
+
+11. str.toLowerCase()
+>将字符串中的字符转为小写 
+
+```js
+let str="SFSAF548SF69SFG5G";
+let s=str.toLowerCase();
+console.log(str);  // SFSAF548SF69SFG5G
+console.log(s);  // sfsaf548sf69sfg5g
+```
+
+12. str.toUpperCase()
+>将字符串中的字符转为大写
+
+```js
+let str="sfsaf548sf69sfg5g";
+let s=str.toUpperCase();
+console.log(str);  // sfsaf548sf69sfg5g
+console.log(s);  // SFSAF548SF69SFG5G
+```
+
+13. str.trim()
+>去除字符串前后的空格
+
+```js
+let str="   sfsaf  548  sf69 sfg  5g  ";
+let s=str.trim();
+console.log(str);  //    sfsaf  548  sf69 sfg  5g  
+console.log(s);  // sfsaf  548  sf69 sfg  5g
+```
+
+14. str.match()
+>检索指定的字符串，并将它放在一个数组中  
+>参数：被检索的字符串 
+>返回值：数组  
+>支持正则查找
+
+```js
+
+```
+
+15. str.concat()
+>用于连接一个或多个字符串  
+>参数：被连接的字符串  
+>返回值：连接之后的新字符串  
+>对原来的字符串没有影响
+
+```js
+
+```
+
+16. str.padStart(),str.padEnd()
+>在字符串的开头或结尾添加字符到给定的字符串长度  
+>参数1：新字符串的目标长度，如果目标长度小于或等于字符串的长度，那么返回字符串本身，不会添加字符  
+>参数2：要添加的字符，如果参数2为空，默认使用空格添加  
+>返回值：添加后的字符串
+
+```js
+
+```
+
+###### 对象与字符串之间的转换
+
+1. JSON.stringify(对象)=>将对象转为一个字符串  
+2. JSON.parse(字符串)=>将字符串转为一个对象  
+>用处：可以进行深拷贝（除了方法以外）
+
+
+### 3. 数学对象
+数学对象可以帮助我们进行一些数学运算，执行一些常见的算术运算  
+
+##### 属性
+| 属性    | 作用                          |
+| :------ | :---------------------------- |
+| PI      | 圆周率                        |
+| E       | 常数e，自然对数的底数         |
+| LN2     | 2的自然对数，以e为底2的对数   |
+| LN10    | 10的自然对数，以e为底10的对数 |
+| LOG2E   | 以2为底，e的对数              |
+| LOG10E  | 以10为底，e的对数             |
+| SQRT2   | 2的平方根                     |
+| SQRT1_2 | 2的平方根的倒数               |
+
+
+##### 数学对象的方法
+| 方法                | 属性               |
+| :------------------ | :----------------- |
+| Math.round()        | 四舍五入           |
+| Math.ceil()         | 向上取整           |
+| Math.floor()        | 向下取整           |
+| Math.random()       | 取0-1之间的随机数  |
+| Math.pow(x,y)       | 求x的y次幂         |
+| Math.max()          | 求最大值           |
+| Math.min()          | 求最小值           |
+| numObj.toFixed(num) | 保留指定的小数位数 |
+
+1. 获取x-y之间的随机数  
+Math.random()*(y-x)+x
+2. 获取x-y之间的随机整数  
+Math.floor(Math.random()*(y-x)+x)
+
+### 4. 日期对象
+>保存了从1970年1月1日到今天所经过的时间（毫秒数）  
+
+##### 日期对象的方法
+
+| 方法              | 作用                                   |
+| ----------------- | -------------------------------------- |
+| getDate()         | 返回月份中的某一天                     |
+| getDay()          | 返回星期中的某一天                     |
+| getMonth()        | 返回月份，是0~11                       |
+| getFullYear()     | 以四位数字返回年份                     |
+| getHours()        | 返回小时                               |
+| getMinutes()      | 返回分钟                               |
+| getSeconds()      | 返回秒                                 |
+| getMilliseconds() | 返回毫秒                               |
+| getTime()         | 返回从1970年1月1日到现在经历过的毫秒数 |
+
+##### 设置时间
+>在实例化对象的过程中传入相应的参数设置时间   
+
+```js
+new Date(12345679)   // 传入一段毫秒数
+new Date('December 17,1996 08:24:00')  // 传入一段标准的表示时间的字符串
+new Date('1996-02-06T03:24:00')
+new Date(2019,5,24)
+new Date(2019,5,24,0,0,0)  // 将年月日时分秒按顺序传参
+```
+### 5. Object对象
+
+##### 内置顶层对象
+> 由JS内置好的对象，可以直接使用，不需要实例化
+* Math对象
+
+##### 本地对象
+> 需要实例化之后才能使用
+* Objext
+* Array
+* String
+* 正则对象
+* Function
+
+##### Object对象的方法
+
+1. Object.assign(obj1,obj2,obj3)  
+用于对象的拼接。将多个对象拼接在一起，将obj2，obj3，拼接在obj1上  
+
+==可用于深拷贝==
+
+```js
+let obj1={
+    name:"张三"
+}
+let obj2={
+    sex:"男"
+}
+let obj3={
+    say(){
+        console.log("ssss")
+    }
+}
+let obj=Object.assign(obj1,obj2,obj3)
+console.log(obj)  //{name: "张三", sex: "男", say: ƒ}
+console.log(obj1) //{name: "张三", sex: "男", say: ƒ}
+```
+
+2. Object.is()  
+判断两个数据是否相等，与===类似，但是有区别
+
+```js
+0 === -0  //true
+Object.is(0,-0) //false
+NaN === NaN   //false
+Object.is(NaN,NaN) // true
+```
+
+3. obj.prototype.isPrototypeOf(obj1)  
+判断一个对象是否存在于另一个对象的原型链中
+
+```js
+function Animal(){
+        
+}
+var dog = new Animal();
+console.log(Animal.prototype.isPrototypeOf(dog));      //true
+```
+
+4. Object.defineProperty()  
+给对象添加一个新的属性，或者修改对象的一个属性  
+
+```js
+let obj = new Object();
+Object.defineProperty(obj, 'name', {
+    configurable: false,
+    writable: true,
+    enumerable: true,           //该属性是否可枚举
+    value: '张三'
+})
+console.log(obj.name)  //张三
+console.log(obj)  //{name: "张三"}
+```
+5. Object.defineProperties(obj,props)   
+给对象添加或修改多个属性，方法
+
+```js
+let obj = new Object();
+Object.defineProperties(obj, {
+    name: {
+        value: '张三',
+        configurable: false,
+        writable: true,
+        enumerable: true
+    },
+    age: {
+        value: 18,
+        configurable: true
+    }
+})
+console.log(obj.name, obj.age) // 张三, 18
+```
+
+6. Object.freeze(obj)  
+防止对象被修改
+
+```js
+var obj={name:'张三',age:18};
+Object.freeze(obj)
+obj.name='李四';
+obj.sex='男';
+console.log(obj)                //{name: "张三", age: 18}
+```
+
+##### 对象的遍历
+
+1. for...in
+
+2. Object.keys(obj)  
+返回一个数组，数组中有对象obj所有的可枚举属性的键名（属性名）
+
+3. Object.values(obj)  
+返回一个数组中，包含对象obj所有的可枚举属性的键值（属性值）
+
+4. Object.getOwnPropertyNames(obj)  
+返回一个数组，包含除了symbol外的所有属性
+
+5. Reflect.ownKeys(obj)  
+返回一个数组包含对象自身的所有属性
+
+
+### 6. 正则表达式
+
+* 作用：正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本。  
+
+- 执行字符串方法无法完成的特殊的匹配、拆分、替换功能
+- 数据验证，文本替换，内容检索、过滤内容
+
+##### 正则对象的创建
+
+1. new RegExp(正则表达式,模式修正符)  
+>模式修正符
+
+| 名称 | 作用                     |
+| ---- | ------------------------ |
+| i    | 执行对大小写不敏感的匹配 |
+| g    | 执行全局匹配             |
+| m    | 执行多行匹配             |
+
+2. 字面量方式创建正则表达式
+let reg=/正则表达式/模式修正符;
+
+##### 正则对象方法
+
+1. reg.test(str)  
+判断字符串是否符合正则匹配
+
+2. reg.exec(str)    
+查询字符串中，符合正则匹配的内容，返回值数组，如果没有返回null
+
+3. reg.compile(正则表达式[,flag])  
+在脚本执行中编译正则表达式，也可用于修改或重新编译正则表达式。
+
+#### 原子，量词，边界
+
+**原子**  ：是正则表达式最小的组成部分，包括英文，标点符号等。
+| 原子 | 作用                               |
+| ---- | ---------------------------------- |
+| \d   | 匹配0-9的数字，等价于[0-9]         |
+| \D   | 匹配除0-9以外的数字，等价于[^0-9]  |
+| \w   | 匹配数字、字母、下划线             |
+| \W   | 匹配除数字、字母、下划线以外的字符 |
+| \s   | 匹配空格                           |
+| \S   | 匹配非空格                         |
+| .    | 查找单个字符，除了换行和行结束符   |
+| \n   | 查找换行符                         |
+| \f   | 匹配换页字符                       |
+| \r   | 回车符                             |
+| \t   | 制表符                             |
+| \v   | 垂直制表符                         |
+
+| 原子表 | 作用                             |
+| ------ | -------------------------------- |
+| []     | 只匹配其中的一个原子             |
+| [^]    | 只匹配除了其中字符的任意一个原子 |
+| [0-9]  | 匹配0-9之间的任意一个字符        |
+| [a-z]  | 匹配a-z之间的任意一个字符        |
+| [A-Z]  | 匹配A-Z之间的任意一个字符        |
+
+
+| 量词  | 作用                              |
+| ----- | --------------------------------- |
+| {n}   | 表示前面的原子重复n次             |
+| {n,}  | 表示前面的原子重复n次或n次以上    |
+| {n,m} | 表示前面的原子是重复n-m次         |
+| *     | 表示前面的一个原子重复0到无数次   |
+| +     | 表示前面一个原子重复1到无数次     |
+| ?=n   | 匹配任何其后紧跟字符串n的字符串   |
+| ?!n   | 匹配任何其后不紧跟字符串n的字符串 |
+
+
+| 符号 | 含义                                 |
+| :--: | ------------------------------------ |
+|  ^   | 从字符串的开头开始匹配               |
+|  $   | 匹配到字符串的结尾                   |
+|  \b  | 匹配单词边界                         |
+|  \B  | 匹配非单词边界                       |
+|  ¦   | 符号两侧符合一个就可以，和逻辑或类似 |
+
 # BOM
+
+Browser Object Model 浏览器对象模型
+为我们提供了一些操作浏览器窗口的接口
+
+### window对象
+
+> Window对象是BOM的核心
+
+###### 属性
+
+| 属性          | 方法                             |
+| ------------- | -------------------------------- |
+| innerWidth    | 浏览器窗口的宽度                 |
+| innerHeight   | 浏览器窗口的高度                 |
+| screen.width  | 屏幕的宽度                       |
+| screen.height | 屏幕的高度                       |
+| top           | 返回窗口体系中的最顶层窗口的引用 |
+
+###### 方法
+
+| 方法名        | 作用                               |
+| ------------- | ---------------------------------- |
+| alert         | 弹出带有一段文本警示框             |
+| confirm       | 弹出带有确认和取消的对话框         |
+| prompt        | 弹出一个输出框                     |
+| open          | 通过脚本打开一个页面               |
+| close         | 关闭当前页面                       |
+| scrollBy      | 按照指定的偏移量移动文档           |
+| scrollTo      | 使文档滚动到指定的位置             |
+| setInterval   | 时间函数，每过一段时间执行一次代码 |
+| clearInterval | 清除由setInterval开启的定时器      |
+| setTimeout    | 计时器，过一段时间之后再执行代码   |
+| clearTimeout  | 清除由setTimeout开启的计时器       |
+
+### console对象
+
+console对象是window子对象，提供了对浏览器控制台的接入，可以在任何全局对象中访问
+
+### location对象
+
+location对象是window对象的子对象，包括当前加载页面的所有信息。除了这些信息之外，location还将当前页面的url解析成块。我们可以根据属性去访问路径不同的块。
+
+###### location对象的属性
+
+以‘http://www.baidu.com:80/javascript/001/BOM/?file=README.md#location对象’这个url为例
+一个完整的网页url包括9个部分
+协议://用户名：密码@域名：端口号/url路径；？search(参数)#hash(标识)
+
+| 名字     | 作用域                         | 案例                                                         |
+| -------- | ------------------------------ | ------------------------------------------------------------ |
+| href     | 返回整个网页url地址的字符串    | http://www.baidu.com:80/javascript/001/BOM/?file=README.md#location对象 |
+| origin   | 返回包含协议域名端口号的字符串 | http://www.baidu.com:80                                      |
+| protocol | 返回网页协议的字符串           | http:                                                        |
+| host     | 包含域名和端口号的字符串       | [www.baidu.com:80](http://www.baidu.com:80)                  |
+| hostname | 包含域名的字符串               | [www.baidu.com](http://www.baidu.com)                        |
+| port     | 端口号的字符串                 | 80                                                           |
+| pathname | 网页的路径                     | javascript/001/BOM                                           |
+| search   | url参数部分，开头是?           | ?[file=README.md](http://file=README.md)                     |
+| hash     | 网页的标识符#开头              | #location对象                                                |
+
+###### location对象的方法
+
+| 名字     | 参数    | 作用                                                         |
+| -------- | ------- | ------------------------------------------------------------ |
+| assign   | url     | 加载给定url地址的资源                                        |
+| reload   | boolean | 重新加载当前页面的资源                                       |
+| replace  | url     | 用给定url的资源替换当前页面的资源                            |
+| toString | 无      | 返回包含整个url地址的字符串，功能与location.href相同，但是获取的地址不能修改 |
+
+**reload参数：** 当参数flase或不写时，页面会跟服务器确定当前页面的资源是否进行了更新，如果更新就重新加载，如果没有就使用本地的存储进行刷新；当参数为true时，无论页面资源是否更新都会从服务器重新加载页面资源
+
+### history对象
+
+是window对象的子对象，保存当前页面的所有历史记录。
+
+###### history的属性
+
+length:返回包含当前页面的历史记录的个数
+
+###### history的方法
+
+| 名字         | 参数            | 功能                                             |
+| ------------ | --------------- | ------------------------------------------------ |
+| back         | 无              | 返回到历史记录的上一个url，等价于history.go(-1)  |
+| forward      | 无              | 进入到历史记录中的下一个url，等价于history.go(1) |
+| go           | number          | 通过当前页面的相对位置加载不同的历史记录         |
+| pushState    | state,title,url | 无刷新的将历史记录的最前方插入一条历史记录       |
+| replaceState | state,title,url | 无刷新的将历史记录替换成新的历史记录             |
+
+**history.go()参数：** 参数为-1，返回到上一页面；参数为1，进入到下一个页面；参数为0，刷新页面
 
 # DOM
 
@@ -191,7 +1556,6 @@ Document Object Model 文档对象模型
 
 | 方法                                  | 描述                                                   |
 | ------------------------------------- | ------------------------------------------------------ |
-| document.write()                      | 在页面中写入内容（识别标签）                           |
 | document.getElementsByTagName(标签名) | 根据标签名获取html中的元素                             |
 | document.getElementsByClassName(类名) | 根据类名获取html中的元素                               |
 | document.getElementById(id名)         | 根据id名获取html中的元素                               |
@@ -392,6 +1756,24 @@ obj.className='';    //清空类名
    - `addEventListener(type,fn,false)`
    - `removeEventListener(type,fn)`
 
+#### 事件监听
+
+> 给一个事件添加多个事件处理程序
+
+###### 添加方式
+
+​	`element.addEventListener(event,callback,bool);`
+​	event：事件，要监听的事件，前面没有on
+​	callback：回调函数，事件处理函数
+​	boolean：true支持捕获型事件流，false支持冒泡型事件流，默认是false
+
+###### 删除方式
+
+​	`element.removeEventListener(event,callback,bool);`
+​	event：事件，要监听的事件，前面没有on
+​	callback：回调函数，事件处理函数(使用removeEventListener移除事件监听，事件处理函数必须是一个具名函数，不能使用匿	名函数)
+​	boolean：true支持捕获型事件流，false支持冒泡型事件流，默认是false
+
 #### 事件对象
 
 > 记录事件发生时的详细信息。事件处理函数的第一个参数就是事件对象
@@ -448,8 +1830,22 @@ document.querySelector("ul").onclick=function(e){
 ```
 ### 本地存储
 
+- cookie
+
+  > 最多能存储4KB,每一个web站点最多能存储20个
+  > 保存时效：可以人为设置cookie的有效期，cookie的使用必须有服务器环境
+  > 可以使用warmpserver去帮助我们搭建服务器
+
 - localStorage：永久存储
+
+  > 存储的数据很多，有5Mb到10Mb，并且只要我们不去删除那么存储下来的内容就会永久保存
 - sessionStorage：一次会话
+
+  > 会话型存储，当我们关闭浏览器以后，存储的内容就删除了
+  > 常用于：
+  > 1.登录状态
+  > 2.具有时效性的网站
+  > 3.搜索记录
 
 ###### 方法
 
@@ -469,7 +1865,86 @@ document.querySelector("ul").onclick=function(e){
 - 将对象转为字符串：JSON.stringify( )
 - 将字符串转为对象：JSON.parse( )
 
-##### Css3新特性
+
+
+# 异步编程Ajax
+
+### 什么是Ajax
+>ajax是一种创建快速动态网页的技术
+
+### ajax的特性
+>异步：在发送请求的时候，用户可以在浏览器端做其他的操作，不会影响请求的进行
+
+**发送或者接收数据的格式**
+
+json,XML,HTML,或者文本
+
+### ajax的作用
+>唯一的功能：发送和接收数据
+
+**根据ajax的特性做以下两部分事情**
+
+1. 在不刷新整个页面的情况下请求数据
+2. 接收并使用从服务器发送回来的数据
+
+### ajax的工作原理
+在客户端与服务器之间加了一个中间层（ajax引擎），使用户操作和服务器响应异步，不需要每一个请求都发送到服务器，就像数据验证和数据处理等都由ajax引擎完成，当确定需要从服务器获取数据的时候再由ajax引擎代为发送请求。
+
+### ajax的使用方法
+1. 实例化XMLHttpRequest()对象  
+let xml =new XMLHttpRequest();
+
+2. 使用open()方法设置请求信息
+
+| 参数         | 作用                             |
+| ------------ | -------------------------------- |
+| request-type | 有get和post                      |
+| url          | 发送请求的地址                   |
+| asynch       | 是否使用异步                     |
+| username     | 需要身份验证可以在这里设置用户名 |
+| password     | 需要身份验证可以在这里设置密码   |
+
+3. 使用send()方法发送请求
+
+| 类型 | 特点                                                         |
+| ---- | ------------------------------------------------------------ |
+| get  | 如果不需要send传递参数，只需要传入null作为send的参数，其他的参数可以跟在url地址后面 |
+| post | 必须先设置头信息，需要传递的参数放在send的参数中             |
+
+```js
+//get
+xml.open(url+"?name=张三&age=20")
+xml.send(null);
+
+//post
+xml.open(url);
+xml.setRequestHeader("Content-Type","application/x-www-form-urlencoded"
+);
+xml.send("name=张三&age=20")
+```
+
+4. onreadystatechange  
+当每一次请求状态发生改变的时候都会触发这个事件    
+readystate的状态有五个  
+
+| 状态码 | 状态                               |
+| ------ | ---------------------------------- |
+| 0      | 还没有调用send方法，发送前         |
+| 1      | 调用send方法，发送中等待响应       |
+| 2      | 响应成功                           |
+| 3      | 解析响应中                         |
+| 4      | 响应解析完成，可以在客户端使用数据 |
+
+设置接收数据的格式，一般为json格式，如果没有这个数据，需要在接收到的数据中心使用JSON.parse()方法将返回来的数据字符串转为json格式。
+xml.responseType="json"
+
+
+
+
+
+
+
+# Css3新特性
 
 - 2d：transfrom 
 - 过渡：transition
@@ -482,7 +1957,7 @@ document.querySelector("ul").onclick=function(e){
 - 新选择器   
 - 媒体查询 ：@media 用一个页面相应不同的终端
 
-##### Html5新特性
+# Html5新特性
 
 - 语义化标签    
   header, nav, aside, section, footer
