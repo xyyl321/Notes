@@ -1203,3 +1203,4 @@ mysqli_debug("d:t:o,/temp/client.trace");
 # PHP RESTful
 
 > REST（英文：Representational State Transfer，简称REST) ，指的是一组架构约束条件和原则。
+
