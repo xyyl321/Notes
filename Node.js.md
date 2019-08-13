@@ -44,3 +44,23 @@ node package manage
 
 ls 目录
 
+暴露模块：
+
+exports.
+
+model.exports
+
+引入模块：
+
+require
+
+nodeJS特性：
+
+MVVM： model  view   viewmodel   双向数据绑定
+
+
+
+express:
+
+
+

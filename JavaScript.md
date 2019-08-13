@@ -1687,7 +1687,7 @@ let arr = [4, 5, 68, 7, 51, 2, 0, 40, 7]
 let b = arr.includes(5, 2)
 console.log(b);   // false
 ```
-19. find    。。。
+19. find    。。。findIndex            reduce
 
 #### String对象
 
